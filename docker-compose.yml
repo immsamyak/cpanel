@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cpanel-postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-cpanel}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-cpanel_secret_password}
+      POSTGRES_DB: ${DB_NAME:-cpanel_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - cpanel-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cpanel"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: cpanel-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - cpanel-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: cpanel-api
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - APP_PORT=3001
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=${DB_USERNAME:-cpanel}
+      - DB_PASSWORD=${DB_PASSWORD:-cpanel_secret_password}
+      - DB_NAME=${DB_NAME:-cpanel_db}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=${JWT_SECRET:-change-this-secret}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-change-this-refresh}
+      - AGENT_SECRET=${AGENT_SECRET:-agent-secret}
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - cpanel-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+    container_name: cpanel-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - cpanel-network
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: cpanel-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - cpanel-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  cpanel-network:
+    driver: bridge

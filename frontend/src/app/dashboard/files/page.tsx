@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Folder, File, Upload, FolderPlus, FilePlus, Pencil, Copy, Trash2 } from 'lucide-react';
 
 const mockFiles = [
     { name: '..', type: 'directory', size: '', permissions: '', modified: '' },
@@ -27,15 +28,21 @@ export default function FilesPage() {
                     <p className="text-dark-400 text-sm mt-1">Browse and manage server files</p>
                 </div>
                 <div className="flex gap-2">
-                    <button className="px-4 py-2 bg-dark-800/50 text-dark-300 text-sm rounded-xl hover:bg-dark-700/50 transition">📤 Upload</button>
-                    <button className="px-4 py-2 bg-dark-800/50 text-dark-300 text-sm rounded-xl hover:bg-dark-700/50 transition">📁 New Folder</button>
-                    <button className="px-4 py-2 bg-dark-800/50 text-dark-300 text-sm rounded-xl hover:bg-dark-700/50 transition">📄 New File</button>
+                    <button className="flex items-center gap-1.5 px-4 py-2 bg-dark-800/50 text-dark-300 text-sm rounded-xl hover:bg-dark-700/50 transition">
+                        <Upload size={14} /> Upload
+                    </button>
+                    <button className="flex items-center gap-1.5 px-4 py-2 bg-dark-800/50 text-dark-300 text-sm rounded-xl hover:bg-dark-700/50 transition">
+                        <FolderPlus size={14} /> New Folder
+                    </button>
+                    <button className="flex items-center gap-1.5 px-4 py-2 bg-dark-800/50 text-dark-300 text-sm rounded-xl hover:bg-dark-700/50 transition">
+                        <FilePlus size={14} /> New File
+                    </button>
                 </div>
             </div>
 
             {/* Breadcrumb */}
             <div className="glass rounded-xl px-4 py-2.5 flex items-center gap-2 text-sm">
-                <span className="text-dark-400">📂</span>
+                <Folder size={14} className="text-dark-400" />
                 {currentPath.split('/').filter(Boolean).map((part, i, arr) => (
                     <div key={i} className="flex items-center gap-2">
                         <span className="text-dark-500">/</span>
@@ -62,7 +69,11 @@ export default function FilesPage() {
                                 onClick={() => setSelectedFile(file.name)}>
                                 <td className="px-6 py-3">
                                     <div className="flex items-center gap-2">
-                                        <span>{file.type === 'directory' ? '📁' : '📄'}</span>
+                                        {file.type === 'directory' ? (
+                                            <Folder size={16} className="text-primary-400" />
+                                        ) : (
+                                            <File size={16} className="text-dark-400" />
+                                        )}
                                         <span className={`text-sm ${file.type === 'directory' ? 'text-primary-400 font-medium' : 'text-dark-200'}`}>{file.name}</span>
                                     </div>
                                 </td>
@@ -72,9 +83,17 @@ export default function FilesPage() {
                                 <td className="px-6 py-3 text-right">
                                     {file.name !== '..' && (
                                         <div className="flex justify-end gap-1">
-                                            {file.type === 'file' && <button className="p-1.5 hover:bg-dark-700/50 rounded-lg text-xs text-dark-400 hover:text-white transition">✏️</button>}
-                                            <button className="p-1.5 hover:bg-dark-700/50 rounded-lg text-xs text-dark-400 hover:text-white transition">📋</button>
-                                            <button className="p-1.5 hover:bg-red-500/10 rounded-lg text-xs text-dark-400 hover:text-red-400 transition">🗑️</button>
+                                            {file.type === 'file' && (
+                                                <button className="p-1.5 hover:bg-dark-700/50 rounded-lg text-dark-400 hover:text-white transition">
+                                                    <Pencil size={13} />
+                                                </button>
+                                            )}
+                                            <button className="p-1.5 hover:bg-dark-700/50 rounded-lg text-dark-400 hover:text-white transition">
+                                                <Copy size={13} />
+                                            </button>
+                                            <button className="p-1.5 hover:bg-red-500/10 rounded-lg text-dark-400 hover:text-red-400 transition">
+                                                <Trash2 size={13} />
+                                            </button>
                                         </div>
                                     )}
                                 </td>

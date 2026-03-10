@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Server, Circle, Plus, Settings } from 'lucide-react';
 
 const mockServers = [
     { id: '1', name: 'prod-server-01', ipAddress: '192.168.1.10', status: 'online', os: 'Ubuntu 22.04', cpuCores: 8, totalMemory: 16384, totalDisk: 500, uptime: '42d 7h', lastHeartbeat: '30s ago' },
@@ -18,8 +19,8 @@ export default function ServersPage() {
                     <h1 className="text-2xl font-bold text-white">Servers</h1>
                     <p className="text-dark-400 text-sm mt-1">Manage your connected servers</p>
                 </div>
-                <button onClick={() => setShowModal(true)} className="px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
-                    + Add Server
+                <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
+                    <Plus size={16} /> Add Server
                 </button>
             </div>
 
@@ -28,16 +29,18 @@ export default function ServersPage() {
                     <div key={server.id} className="glass rounded-2xl p-5 card-hover">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center text-white text-xl">🖥️</div>
+                                <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center shadow-lg">
+                                    <Server size={22} className="text-white" />
+                                </div>
                                 <div>
                                     <div className="flex items-center gap-2">
                                         <h3 className="text-lg font-semibold text-white">{server.name}</h3>
-                                        <span className={`status-dot ${server.status === 'online' ? 'status-online' : 'status-pending'}`}></span>
+                                        <Circle size={8} className={`${server.status === 'online' ? 'fill-green-400 text-green-400' : 'fill-yellow-400 text-yellow-400'}`} />
                                         <span className={`text-xs px-2 py-0.5 rounded-full ${server.status === 'online' ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400'}`}>
                                             {server.status}
                                         </span>
                                     </div>
-                                    <p className="text-sm text-dark-400">{server.ipAddress} • {server.os}</p>
+                                    <p className="text-sm text-dark-400">{server.ipAddress} · {server.os}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-6 text-sm">
@@ -57,8 +60,8 @@ export default function ServersPage() {
                                     <p className="text-dark-500 text-xs">Uptime</p>
                                     <p className="text-white font-medium">{server.uptime}</p>
                                 </div>
-                                <button className="px-3 py-1.5 bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition text-xs">
-                                    Manage →
+                                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition text-xs">
+                                    <Settings size={13} /> Manage
                                 </button>
                             </div>
                         </div>
@@ -66,7 +69,6 @@ export default function ServersPage() {
                 ))}
             </div>
 
-            {/* Add Server Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
                     <div className="glass rounded-2xl p-6 w-full max-w-lg animate-slide-in">

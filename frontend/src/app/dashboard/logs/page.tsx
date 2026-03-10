@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Monitor, Globe, Package, RefreshCw } from 'lucide-react';
 
 const generateLogs = (source: string) => {
     const levels = ['INFO', 'WARN', 'ERROR', 'DEBUG'];
@@ -77,8 +78,8 @@ export default function LogsPage() {
                         <input type="checkbox" checked={autoScroll} onChange={(e) => setAutoScroll(e.target.checked)} className="rounded" />
                         Auto-scroll
                     </label>
-                    <button onClick={() => setLogs(generateLogs(logSource))} className="px-4 py-2 bg-dark-800/50 text-dark-300 text-sm rounded-xl hover:bg-dark-700/50 transition">
-                        🔄 Refresh
+                    <button onClick={() => setLogs(generateLogs(logSource))} className="flex items-center gap-1.5 px-4 py-2 bg-dark-800/50 text-dark-300 text-sm rounded-xl hover:bg-dark-700/50 transition">
+                        <RefreshCw size={14} /> Refresh
                     </button>
                 </div>
             </div>
@@ -86,14 +87,14 @@ export default function LogsPage() {
             {/* Source Tabs */}
             <div className="flex gap-2">
                 {[
-                    { key: 'system', label: 'System Logs', icon: '🖥️' },
-                    { key: 'nginx', label: 'Nginx Logs', icon: '🌐' },
-                    { key: 'application', label: 'App Logs', icon: '📦' },
+                    { key: 'system', label: 'System Logs', Icon: Monitor },
+                    { key: 'nginx', label: 'Nginx Logs', Icon: Globe },
+                    { key: 'application', label: 'App Logs', Icon: Package },
                 ].map(tab => (
                     <button key={tab.key} onClick={() => switchSource(tab.key)}
-                        className={`px-4 py-2.5 rounded-xl text-sm font-medium transition ${logSource === tab.key ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20' : 'bg-dark-800/30 text-dark-400 hover:text-white hover:bg-dark-800/50'
+                        className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition ${logSource === tab.key ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20' : 'bg-dark-800/30 text-dark-400 hover:text-white hover:bg-dark-800/50'
                             }`}>
-                        {tab.icon} {tab.label}
+                        <tab.Icon size={14} /> {tab.label}
                     </button>
                 ))}
             </div>

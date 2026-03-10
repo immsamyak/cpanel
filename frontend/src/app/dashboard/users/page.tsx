@@ -1,4 +1,5 @@
 'use client';
+import { Circle, CheckCircle, AlertTriangle, Trash2, UserX } from 'lucide-react';
 
 const mockUsers = [
     { id: '1', firstName: 'John', lastName: 'Doe', email: 'john@example.com', role: 'admin', isActive: true, isTwoFactorEnabled: true, lastLoginAt: '2024-01-15 14:30', createdAt: '2023-06-01' },
@@ -18,7 +19,7 @@ export default function UsersPage() {
                 </div>
                 <div className="flex items-center gap-3 text-sm">
                     <span className="text-dark-400">{mockUsers.length} users</span>
-                    <span className="text-dark-600">•</span>
+                    <span className="text-dark-600">·</span>
                     <span className="text-green-400">{mockUsers.filter(u => u.isActive).length} active</span>
                 </div>
             </div>
@@ -57,22 +58,26 @@ export default function UsersPage() {
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-1.5">
-                                        <span className={`status-dot ${user.isActive ? 'status-online' : 'status-offline'}`}></span>
+                                        <Circle size={8} className={`${user.isActive ? 'fill-green-400 text-green-400' : 'fill-red-400 text-red-400'}`} />
                                         <span className={`text-xs ${user.isActive ? 'text-green-400' : 'text-red-400'}`}>{user.isActive ? 'Active' : 'Inactive'}</span>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <span className={`text-sm ${user.isTwoFactorEnabled ? 'text-green-400' : 'text-dark-500'}`}>
-                                        {user.isTwoFactorEnabled ? '✅ Enabled' : '—'}
-                                    </span>
+                                    {user.isTwoFactorEnabled ? (
+                                        <CheckCircle size={16} className="text-green-400" />
+                                    ) : (
+                                        <AlertTriangle size={16} className="text-dark-500" />
+                                    )}
                                 </td>
                                 <td className="px-6 py-4 text-dark-400 text-sm">{user.lastLoginAt}</td>
                                 <td className="px-6 py-4 text-dark-400 text-sm">{user.createdAt}</td>
                                 <td className="px-6 py-4 text-right">
-                                    <button className="text-xs px-3 py-1.5 bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition mr-2">
-                                        {user.isActive ? 'Disable' : 'Enable'}
+                                    <button className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition mr-2">
+                                        <UserX size={12} /> {user.isActive ? 'Disable' : 'Enable'}
                                     </button>
-                                    <button className="text-xs px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">Delete</button>
+                                    <button className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">
+                                        <Trash2 size={12} /> Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}

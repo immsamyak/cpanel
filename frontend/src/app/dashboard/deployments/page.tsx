@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Rocket, Plus, Square, Play, RefreshCw, FileText, Container, FileCode, Globe2, Box } from 'lucide-react';
 
 const mockDeployments = [
     { id: '1', name: 'api-service', type: 'nodejs', status: 'running', server: 'prod-server-01', port: 3001, branch: 'main', uptime: '12d 5h' },
@@ -9,7 +10,7 @@ const mockDeployments = [
     { id: '5', name: 'analytics-worker', type: 'nodejs', status: 'stopped', server: 'staging-server', port: 5000, branch: 'develop', uptime: '—' },
 ];
 
-const typeIcons: any = { nodejs: '⬢', laravel: '🔺', static: '📄', docker: '🐳' };
+const typeIcons: any = { nodejs: Box, laravel: FileCode, static: Globe2, docker: Container };
 const typeColors: any = { nodejs: 'bg-green-500/10 text-green-400', laravel: 'bg-red-500/10 text-red-400', static: 'bg-blue-500/10 text-blue-400', docker: 'bg-cyan-500/10 text-cyan-400' };
 const statusColors: any = { running: 'bg-green-500/10 text-green-400', deploying: 'bg-yellow-500/10 text-yellow-400', stopped: 'bg-red-500/10 text-red-400', failed: 'bg-red-500/10 text-red-400' };
 
@@ -23,41 +24,52 @@ export default function DeploymentsPage() {
                     <h1 className="text-2xl font-bold text-white">Deployments</h1>
                     <p className="text-dark-400 text-sm mt-1">Deploy and manage applications</p>
                 </div>
-                <button onClick={() => setShowModal(true)} className="px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
-                    + New Deployment
+                <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
+                    <Plus size={16} /> New Deployment
                 </button>
             </div>
 
             <div className="grid gap-4">
-                {mockDeployments.map((dep) => (
-                    <div key={dep.id} className="glass rounded-2xl p-5 card-hover">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 gradient-info rounded-xl flex items-center justify-center text-xl shadow-lg">
-                                    {typeIcons[dep.type]}
-                                </div>
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="text-lg font-semibold text-white">{dep.name}</h3>
-                                        <span className={`text-xs px-2 py-0.5 rounded-full ${typeColors[dep.type]}`}>{dep.type}</span>
-                                        <span className={`text-xs px-2 py-0.5 rounded-full ${statusColors[dep.status]}`}>{dep.status}</span>
+                {mockDeployments.map((dep) => {
+                    const TypeIcon = typeIcons[dep.type] || Box;
+                    return (
+                        <div key={dep.id} className="glass rounded-2xl p-5 card-hover">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 gradient-info rounded-xl flex items-center justify-center shadow-lg">
+                                        <TypeIcon size={22} className="text-white" />
                                     </div>
-                                    <p className="text-sm text-dark-400">{dep.server} • Port {dep.port} • Branch: {dep.branch}</p>
+                                    <div>
+                                        <div className="flex items-center gap-2">
+                                            <h3 className="text-lg font-semibold text-white">{dep.name}</h3>
+                                            <span className={`text-xs px-2 py-0.5 rounded-full ${typeColors[dep.type]}`}>{dep.type}</span>
+                                            <span className={`text-xs px-2 py-0.5 rounded-full ${statusColors[dep.status]}`}>{dep.status}</span>
+                                        </div>
+                                        <p className="text-sm text-dark-400">{dep.server} · Port {dep.port} · Branch: {dep.branch}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                {dep.status === 'running' && (
-                                    <button className="px-3 py-1.5 bg-yellow-500/10 text-yellow-400 rounded-lg hover:bg-yellow-500/20 transition text-xs">Stop</button>
-                                )}
-                                {dep.status === 'stopped' && (
-                                    <button className="px-3 py-1.5 bg-green-500/10 text-green-400 rounded-lg hover:bg-green-500/20 transition text-xs">Start</button>
-                                )}
-                                <button className="px-3 py-1.5 bg-primary-500/10 text-primary-400 rounded-lg hover:bg-primary-500/20 transition text-xs">Restart</button>
-                                <button className="px-3 py-1.5 bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition text-xs">Logs</button>
+                                <div className="flex items-center gap-2">
+                                    {dep.status === 'running' && (
+                                        <button className="flex items-center gap-1.5 px-3 py-1.5 bg-yellow-500/10 text-yellow-400 rounded-lg hover:bg-yellow-500/20 transition text-xs">
+                                            <Square size={12} /> Stop
+                                        </button>
+                                    )}
+                                    {dep.status === 'stopped' && (
+                                        <button className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/10 text-green-400 rounded-lg hover:bg-green-500/20 transition text-xs">
+                                            <Play size={12} /> Start
+                                        </button>
+                                    )}
+                                    <button className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-500/10 text-primary-400 rounded-lg hover:bg-primary-500/20 transition text-xs">
+                                        <RefreshCw size={12} /> Restart
+                                    </button>
+                                    <button className="flex items-center gap-1.5 px-3 py-1.5 bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition text-xs">
+                                        <FileText size={12} /> Logs
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             {showModal && (

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Shield, Plus, Trash2, Ban, Circle } from 'lucide-react';
 
 const mockRules = [
     { id: '1', name: 'Allow SSH', action: 'allow', sourceIp: '0.0.0.0/0', port: 22, protocol: 'tcp', isActive: true },
@@ -30,8 +31,8 @@ export default function SecurityPage() {
                     <p className="text-dark-400 text-sm mt-1">Firewall rules and intrusion prevention</p>
                 </div>
                 {activeTab === 'firewall' && (
-                    <button onClick={() => setShowModal(true)} className="px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
-                        + Add Rule
+                    <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
+                        <Plus size={16} /> Add Rule
                     </button>
                 )}
             </div>
@@ -39,12 +40,12 @@ export default function SecurityPage() {
             {/* Tabs */}
             <div className="flex gap-2">
                 <button onClick={() => setActiveTab('firewall')}
-                    className={`px-4 py-2.5 rounded-xl text-sm font-medium transition ${activeTab === 'firewall' ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20' : 'bg-dark-800/30 text-dark-400 hover:text-white'}`}>
-                    🛡️ Firewall Rules
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition ${activeTab === 'firewall' ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20' : 'bg-dark-800/30 text-dark-400 hover:text-white'}`}>
+                    <Shield size={14} /> Firewall Rules
                 </button>
                 <button onClick={() => setActiveTab('fail2ban')}
-                    className={`px-4 py-2.5 rounded-xl text-sm font-medium transition ${activeTab === 'fail2ban' ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20' : 'bg-dark-800/30 text-dark-400 hover:text-white'}`}>
-                    🚫 Fail2Ban
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition ${activeTab === 'fail2ban' ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20' : 'bg-dark-800/30 text-dark-400 hover:text-white'}`}>
+                    <Ban size={14} /> Fail2Ban
                 </button>
             </div>
 
@@ -80,7 +81,9 @@ export default function SecurityPage() {
                                         </button>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <button className="text-xs px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">Delete</button>
+                                        <button className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">
+                                            <Trash2 size={12} /> Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -95,7 +98,9 @@ export default function SecurityPage() {
                         <div key={jail.name} className="glass rounded-2xl p-5 card-hover">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 gradient-danger rounded-xl flex items-center justify-center text-lg">🚫</div>
+                                    <div className="w-10 h-10 gradient-danger rounded-xl flex items-center justify-center">
+                                        <Ban size={18} className="text-white" />
+                                    </div>
                                     <div>
                                         <h3 className="font-semibold text-white">{jail.name}</h3>
                                         <p className="text-xs text-dark-400">Total banned: {jail.totalBanned} IPs</p>

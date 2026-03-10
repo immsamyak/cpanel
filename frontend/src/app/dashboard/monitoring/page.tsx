@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { Zap, Cpu, MemoryStick, HardDrive, ArrowDownToLine, ArrowUpFromLine, Circle } from 'lucide-react';
 
-// Generate mock time series data
 function generateMetrics(hours: number) {
     const data = [];
     const now = Date.now();
@@ -28,11 +28,13 @@ export default function MonitoringPage() {
 
     const latestMetric = metrics[metrics.length - 1] || {};
 
-    const MetricCard = ({ title, value, unit, color, icon }: any) => (
+    const MetricCard = ({ title, value, unit, color, Icon }: any) => (
         <div className="glass rounded-2xl p-5 card-hover">
             <div className="flex items-center justify-between mb-3">
-                <span className="text-2xl">{icon}</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${color}`}>Live</span>
+                <Icon size={20} className="text-dark-400" />
+                <span className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${color}`}>
+                    <Circle size={6} className="fill-current" /> Live
+                </span>
             </div>
             <div className="text-3xl font-bold text-white mb-1">{typeof value === 'number' ? value.toFixed(1) : value}{unit}</div>
             <p className="text-sm text-dark-400">{title}</p>
@@ -54,16 +56,14 @@ export default function MonitoringPage() {
                 </select>
             </div>
 
-            {/* Metric Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
-                <MetricCard title="CPU Usage" value={latestMetric.cpu} unit="%" color="bg-blue-500/10 text-blue-400" icon="⚡" />
-                <MetricCard title="Memory Usage" value={latestMetric.memory} unit="%" color="bg-purple-500/10 text-purple-400" icon="🧠" />
-                <MetricCard title="Disk Usage" value={latestMetric.disk} unit="%" color="bg-green-500/10 text-green-400" icon="💿" />
-                <MetricCard title="Network In" value={latestMetric.netIn} unit=" KB/s" color="bg-cyan-500/10 text-cyan-400" icon="📥" />
-                <MetricCard title="Network Out" value={latestMetric.netOut} unit=" KB/s" color="bg-orange-500/10 text-orange-400" icon="📤" />
+                <MetricCard title="CPU Usage" value={latestMetric.cpu} unit="%" color="bg-blue-500/10 text-blue-400" Icon={Zap} />
+                <MetricCard title="Memory Usage" value={latestMetric.memory} unit="%" color="bg-purple-500/10 text-purple-400" Icon={Cpu} />
+                <MetricCard title="Disk Usage" value={latestMetric.disk} unit="%" color="bg-green-500/10 text-green-400" Icon={HardDrive} />
+                <MetricCard title="Network In" value={latestMetric.netIn} unit=" KB/s" color="bg-cyan-500/10 text-cyan-400" Icon={ArrowDownToLine} />
+                <MetricCard title="Network Out" value={latestMetric.netOut} unit=" KB/s" color="bg-orange-500/10 text-orange-400" Icon={ArrowUpFromLine} />
             </div>
 
-            {/* Charts (CSS-based since we can't use Recharts without running npm install) */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="glass rounded-2xl p-6">
                     <h3 className="text-lg font-semibold text-white mb-4">CPU Usage (24h)</h3>
@@ -114,8 +114,8 @@ export default function MonitoringPage() {
                     <div className="flex justify-between text-xs text-dark-500 mt-2">
                         <span>24h ago</span>
                         <div className="flex gap-4">
-                            <span className="text-cyan-400">● In</span>
-                            <span className="text-orange-400">● Out</span>
+                            <span className="flex items-center gap-1 text-cyan-400"><Circle size={6} className="fill-current" /> In</span>
+                            <span className="flex items-center gap-1 text-orange-400"><Circle size={6} className="fill-current" /> Out</span>
                         </div>
                         <span>Now</span>
                     </div>

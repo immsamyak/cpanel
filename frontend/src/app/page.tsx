@@ -1,6 +1,14 @@
 import Link from 'next/link'
+import { Server, Globe, Database, Rocket } from 'lucide-react'
 
 export default function Home() {
+    const stats = [
+        { label: 'Servers', value: '∞', Icon: Server },
+        { label: 'Domains', value: '∞', Icon: Globe },
+        { label: 'Databases', value: '∞', Icon: Database },
+        { label: 'Deployments', value: '∞', Icon: Rocket },
+    ];
+
     return (
         <div className="min-h-screen gradient-mesh flex flex-col items-center justify-center px-4">
             <div className="text-center max-w-3xl animate-fade-in">
@@ -32,14 +40,9 @@ export default function Home() {
                     </Link>
                 </div>
                 <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                    {[
-                        { label: 'Servers', value: '∞', icon: '🖥️' },
-                        { label: 'Domains', value: '∞', icon: '🌐' },
-                        { label: 'Databases', value: '∞', icon: '🗄️' },
-                        { label: 'Deployments', value: '∞', icon: '🚀' },
-                    ].map(stat => (
+                    {stats.map(stat => (
                         <div key={stat.label} className="glass rounded-xl p-4 card-hover">
-                            <div className="text-2xl mb-1">{stat.icon}</div>
+                            <stat.Icon size={24} className="mx-auto mb-2 text-primary-400" />
                             <div className="text-2xl font-bold text-white">{stat.value}</div>
                             <div className="text-sm text-dark-400">{stat.label}</div>
                         </div>

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Database, Plus, HardDrive, Trash2 } from 'lucide-react';
 
 const mockDatabases = [
     { id: '1', name: 'app_production', type: 'postgresql', server: 'db-server-01', size: '245 MB', user: 'app_user', host: 'localhost', port: 5432 },
@@ -18,8 +19,8 @@ export default function DatabasesPage() {
                     <h1 className="text-2xl font-bold text-white">Databases</h1>
                     <p className="text-dark-400 text-sm mt-1">Manage MySQL and PostgreSQL databases</p>
                 </div>
-                <button onClick={() => setShowModal(true)} className="px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
-                    + Create Database
+                <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
+                    <Plus size={16} /> Create Database
                 </button>
             </div>
 
@@ -28,8 +29,8 @@ export default function DatabasesPage() {
                     <div key={db.id} className="glass rounded-2xl p-5 card-hover">
                         <div className="flex items-start justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${db.type === 'postgresql' ? 'gradient-info' : 'gradient-warning'}`}>
-                                    🗄️
+                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${db.type === 'postgresql' ? 'gradient-info' : 'gradient-warning'}`}>
+                                    <Database size={18} className="text-white" />
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-white">{db.name}</h3>
@@ -39,8 +40,12 @@ export default function DatabasesPage() {
                                 </div>
                             </div>
                             <div className="flex gap-2">
-                                <button className="px-2 py-1 text-xs bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition">Backup</button>
-                                <button className="px-2 py-1 text-xs bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">Delete</button>
+                                <button className="flex items-center gap-1 px-2 py-1 text-xs bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition">
+                                    <HardDrive size={12} /> Backup
+                                </button>
+                                <button className="flex items-center gap-1 px-2 py-1 text-xs bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">
+                                    <Trash2 size={12} /> Delete
+                                </button>
                             </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3 text-sm">

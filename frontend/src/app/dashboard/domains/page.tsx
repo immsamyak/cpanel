@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Globe, Plus, Pencil, Trash2, Lock } from 'lucide-react';
 
 const mockDomains = [
     { id: '1', name: 'example.com', type: 'primary', status: 'active', sslEnabled: true, server: 'prod-server-01', documentRoot: '/var/www/example.com/public' },
@@ -28,8 +29,8 @@ export default function DomainsPage() {
                     <h1 className="text-2xl font-bold text-white">Domains</h1>
                     <p className="text-dark-400 text-sm mt-1">Manage domains and virtual hosts</p>
                 </div>
-                <button onClick={() => setShowModal(true)} className="px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
-                    + Add Domain
+                <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
+                    <Plus size={16} /> Add Domain
                 </button>
             </div>
 
@@ -50,7 +51,7 @@ export default function DomainsPage() {
                             <tr key={domain.id} className="hover:bg-dark-800/30 transition">
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-lg">🌐</span>
+                                        <Globe size={16} className="text-primary-400" />
                                         <span className="text-white font-medium">{domain.name}</span>
                                     </div>
                                 </td>
@@ -61,12 +62,20 @@ export default function DomainsPage() {
                                     <span className={`text-xs px-2 py-1 rounded-full ${getStatusBadge(domain.status)}`}>{domain.status}</span>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <span className={domain.sslEnabled ? 'text-green-400' : 'text-dark-500'}>{domain.sslEnabled ? '🔒 Active' : '—'}</span>
+                                    {domain.sslEnabled ? (
+                                        <span className="flex items-center gap-1 text-green-400 text-sm"><Lock size={13} /> Active</span>
+                                    ) : (
+                                        <span className="text-dark-500">—</span>
+                                    )}
                                 </td>
                                 <td className="px-6 py-4 text-dark-400 text-sm">{domain.server}</td>
                                 <td className="px-6 py-4 text-right">
-                                    <button className="text-xs px-3 py-1.5 bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition mr-2">Edit</button>
-                                    <button className="text-xs px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">Delete</button>
+                                    <button className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-dark-800/50 text-dark-300 rounded-lg hover:bg-dark-700/50 transition mr-2">
+                                        <Pencil size={12} /> Edit
+                                    </button>
+                                    <button className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">
+                                        <Trash2 size={12} /> Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { HardDrive, Plus, RotateCcw, Trash2, Clock } from 'lucide-react';
 
 const mockBackups = [
     { id: '1', name: 'Full Backup - Jan 15', server: 'prod-server-01', status: 'completed', size: '2.4 GB', storage: 'local', createdAt: '2024-01-15 10:00', scheduled: false },
@@ -20,8 +21,8 @@ export default function BackupsPage() {
                     <h1 className="text-2xl font-bold text-white">Backups</h1>
                     <p className="text-dark-400 text-sm mt-1">Create and manage server backups</p>
                 </div>
-                <button onClick={() => setShowModal(true)} className="px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
-                    + Create Backup
+                <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
+                    <Plus size={16} /> Create Backup
                 </button>
             </div>
 
@@ -44,7 +45,11 @@ export default function BackupsPage() {
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-2">
                                         <span className="text-white font-medium">{backup.name}</span>
-                                        {backup.scheduled && <span className="text-xs px-1.5 py-0.5 bg-primary-500/10 text-primary-400 rounded">auto</span>}
+                                        {backup.scheduled && (
+                                            <span className="flex items-center gap-1 text-xs px-1.5 py-0.5 bg-primary-500/10 text-primary-400 rounded">
+                                                <Clock size={10} /> auto
+                                            </span>
+                                        )}
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-dark-400 text-sm">{backup.server}</td>
@@ -53,8 +58,12 @@ export default function BackupsPage() {
                                 <td className="px-6 py-4"><span className="text-xs px-2 py-0.5 rounded-lg bg-dark-800/50 text-dark-300">{backup.storage}</span></td>
                                 <td className="px-6 py-4 text-dark-400 text-sm">{backup.createdAt}</td>
                                 <td className="px-6 py-4 text-right">
-                                    <button className="text-xs px-3 py-1.5 bg-primary-500/10 text-primary-400 rounded-lg hover:bg-primary-500/20 transition mr-2">Restore</button>
-                                    <button className="text-xs px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">Delete</button>
+                                    <button className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-primary-500/10 text-primary-400 rounded-lg hover:bg-primary-500/20 transition mr-2">
+                                        <RotateCcw size={12} /> Restore
+                                    </button>
+                                    <button className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition">
+                                        <Trash2 size={12} /> Delete
+                                    </button>
                                 </td>
                             </tr>
                         ))}

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Lock, Plus, RefreshCw, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 
 const mockCerts = [
     { id: '1', domain: 'example.com', status: 'active', issuer: "Let's Encrypt", issuedAt: '2024-01-01', expiresAt: '2024-04-01', autoRenew: true, daysLeft: 68 },
@@ -18,8 +19,8 @@ export default function SslPage() {
                     <h1 className="text-2xl font-bold text-white">SSL Certificates</h1>
                     <p className="text-dark-400 text-sm mt-1">Manage SSL/TLS certificates for your domains</p>
                 </div>
-                <button onClick={() => setShowModal(true)} className="px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
-                    + Request Certificate
+                <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-4 py-2.5 gradient-primary text-white text-sm font-medium rounded-xl hover:opacity-90 transition shadow-lg shadow-primary-500/25">
+                    <Plus size={16} /> Request Certificate
                 </button>
             </div>
 
@@ -28,8 +29,8 @@ export default function SslPage() {
                     <div key={cert.id} className="glass rounded-2xl p-5 card-hover">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg ${cert.status === 'active' ? 'gradient-success' : 'gradient-warning'}`}>
-                                    🔒
+                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg ${cert.status === 'active' ? 'gradient-success' : 'gradient-warning'}`}>
+                                    <Lock size={22} className="text-white" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-semibold text-white">{cert.domain}</h3>
@@ -49,10 +50,12 @@ export default function SslPage() {
                                 </div>
                                 <div className="text-center">
                                     <p className="text-dark-500 text-xs">Auto Renew</p>
-                                    <p className="text-white font-medium">{cert.autoRenew ? '✅' : '❌'}</p>
+                                    <p className="text-white font-medium">
+                                        {cert.autoRenew ? <CheckCircle size={16} className="inline text-green-400" /> : <AlertTriangle size={16} className="inline text-dark-500" />}
+                                    </p>
                                 </div>
-                                <button className="px-3 py-1.5 bg-primary-500/10 text-primary-400 rounded-lg hover:bg-primary-500/20 transition text-xs">
-                                    Renew
+                                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-500/10 text-primary-400 rounded-lg hover:bg-primary-500/20 transition text-xs">
+                                    <RefreshCw size={12} /> Renew
                                 </button>
                             </div>
                         </div>

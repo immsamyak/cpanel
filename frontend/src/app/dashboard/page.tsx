@@ -1,10 +1,14 @@
 'use client';
+import {
+    Server, Globe, Rocket, Lock, Plus, HardDrive, FileText,
+    Activity, ArrowUpRight, Circle
+} from 'lucide-react';
 
 const statsCards = [
-    { title: 'Total Servers', value: '12', change: '+2 this month', icon: '🖥️', gradient: 'gradient-primary' },
-    { title: 'Active Domains', value: '47', change: '+5 this month', icon: '🌐', gradient: 'gradient-success' },
-    { title: 'Deployments', value: '23', change: '3 running', icon: '🚀', gradient: 'gradient-info' },
-    { title: 'SSL Certificates', value: '41', change: '2 expiring soon', icon: '🔒', gradient: 'gradient-warning' },
+    { title: 'Total Servers', value: '12', change: '+2 this month', Icon: Server, gradient: 'gradient-primary' },
+    { title: 'Active Domains', value: '47', change: '+5 this month', Icon: Globe, gradient: 'gradient-success' },
+    { title: 'Deployments', value: '23', change: '3 running', Icon: Rocket, gradient: 'gradient-info' },
+    { title: 'SSL Certificates', value: '41', change: '2 expiring soon', Icon: Lock, gradient: 'gradient-warning' },
 ];
 
 const recentActivity = [
@@ -31,8 +35,8 @@ export default function DashboardPage() {
                 {statsCards.map((card) => (
                     <div key={card.title} className="glass rounded-2xl p-5 card-hover">
                         <div className="flex items-start justify-between mb-4">
-                            <div className={`w-12 h-12 ${card.gradient} rounded-xl flex items-center justify-center text-xl shadow-lg`}>
-                                {card.icon}
+                            <div className={`w-12 h-12 ${card.gradient} rounded-xl flex items-center justify-center shadow-lg`}>
+                                <card.Icon size={22} className="text-white" />
                             </div>
                             <span className="text-xs text-dark-400 bg-dark-800/50 px-2 py-1 rounded-lg">{card.change}</span>
                         </div>
@@ -55,7 +59,7 @@ export default function DashboardPage() {
                         {serverOverview.map((server) => (
                             <div key={server.name} className="flex items-center gap-4 p-3 rounded-xl bg-dark-800/30 hover:bg-dark-800/50 transition">
                                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                                    <span className={`status-dot ${server.status === 'online' ? 'status-online' : 'status-pending'}`}></span>
+                                    <Circle size={8} className={`flex-shrink-0 ${server.status === 'online' ? 'fill-green-400 text-green-400' : 'fill-yellow-400 text-yellow-400'}`} />
                                     <div className="min-w-0">
                                         <p className="text-sm font-medium text-white truncate">{server.name}</p>
                                         <p className="text-xs text-dark-500">{server.ip}</p>
@@ -109,16 +113,16 @@ export default function DashboardPage() {
                 <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
                     {[
-                        { label: 'Add Server', icon: '➕', href: '/dashboard/servers' },
-                        { label: 'Add Domain', icon: '🌐', href: '/dashboard/domains' },
-                        { label: 'Deploy App', icon: '🚀', href: '/dashboard/deployments' },
-                        { label: 'Create Backup', icon: '💾', href: '/dashboard/backups' },
-                        { label: 'View Logs', icon: '📋', href: '/dashboard/logs' },
-                        { label: 'SSL Cert', icon: '🔒', href: '/dashboard/ssl' },
+                        { label: 'Add Server', Icon: Plus, href: '/dashboard/servers' },
+                        { label: 'Add Domain', Icon: Globe, href: '/dashboard/domains' },
+                        { label: 'Deploy App', Icon: Rocket, href: '/dashboard/deployments' },
+                        { label: 'Create Backup', Icon: HardDrive, href: '/dashboard/backups' },
+                        { label: 'View Logs', Icon: FileText, href: '/dashboard/logs' },
+                        { label: 'SSL Cert', Icon: Lock, href: '/dashboard/ssl' },
                     ].map((action) => (
                         <a key={action.label} href={action.href}
                             className="flex flex-col items-center gap-2 p-4 rounded-xl bg-dark-800/30 hover:bg-dark-800/50 transition-all hover:scale-105 cursor-pointer">
-                            <span className="text-2xl">{action.icon}</span>
+                            <action.Icon size={22} className="text-primary-400" />
                             <span className="text-xs text-dark-300 font-medium">{action.label}</span>
                         </a>
                     ))}

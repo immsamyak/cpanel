@@ -30,7 +30,7 @@ import { JobsModule } from './modules/jobs/jobs.module';
                 password: config.get('DB_PASSWORD', 'cpanel_secret_password'),
                 database: config.get('DB_NAME', 'cpanel_db'),
                 entities: [__dirname + '/**/*.entity{.ts,.js}'],
-                synchronize: config.get('NODE_ENV') !== 'production',
+                synchronize: true,
                 logging: config.get('NODE_ENV') === 'development',
             }),
         }),
